@@ -4,8 +4,19 @@ Created on Thu Nov 17 14:00:19 2022
 
 @author: Patrick Ablinger
 """
+import time
 
-import module
+def loading_function():
+    print("Processing Input: ##", end = ' ', flush=True)
+    for i in range(6):
+        time.sleep(1)
+        print("##", end=' ', flush=True)
+    print(" ")
+    time.sleep(1)
+    print("Calculation Finished!")
+    time.sleep(1)
+    return
+    
 
 def kmh2ms(input_float, round = 0):
     """
@@ -93,7 +104,7 @@ def validateString(input_string, comma_n):
         
    
 #=============================================================================    
-print('Beenden Sie das Programm indem sie "exit" eingeben. \n')
+print('Beenden Sie das Programm indem sie "exit" eingeben.')
 print('Bitte geben Sie die gegebenen km/h ein: ')
 
 while True:  
@@ -108,7 +119,8 @@ while True:
     sec_meter = 1/meter_sec #invert
     
     #round + 1 because you want to know n+1 comma values
-    print('\n Ihre Eingabe beträgt umgerechnet {} m/s beziehungsweise {} s/m. \n'.format(round(meter_sec, nFloat+1), round(sec_meter,nFloat+1)))
+    loading_function()
+    print('Ihre Eingabe beträgt umgerechnet {} m/s beziehungsweise {} s/m. \n'.format(round(meter_sec, nFloat+1), round(sec_meter,nFloat+1)))
     
 print('Vielen Dank für das Nutzen dieses Tools.')
 
