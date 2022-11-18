@@ -16,10 +16,10 @@ rows = picture.split('ф')
 edited_rows = []
 for i in range(len(rows)): #small loop to fix inconsistency with picture string
     if i == 19:
-        edited_rows.append(rows[i][:41])
-        edited_rows.append(rows[i][41:])
+        edited_rows.append(rows[i][:41][:40]) #to make all list of len 40
+        edited_rows.append(rows[i][41:]) #-> this one surely has len 40
     else:
-        edited_rows.append(rows[i])  
+        edited_rows.append(rows[i][:40])  #to make all list of len 40
 rows = edited_rows
 
         
@@ -57,10 +57,10 @@ def CommandHandler(input_string):
     if lwrd in ['/toggle', '/t']:
         if KMHTOMS:
              KMHTOMS = False
-             print('Nun wird von km/h in s/m umgerechnet.')
+             print('Nun wird von [km/h] in [s/m] umgerechnet.')
         else:
              KMHTOMS = True
-             print('Nun wird von km/h in m/s umgerechnet.')        
+             print('Nun wird von [km/h] in [m/s] umgerechnet.')        
         return 2 #exit code 'Change Needed'
     
     if lwrd in ['/exit', 'exit', 'e', '/e', '"exit"']:
@@ -157,7 +157,7 @@ def prepareString(input_string):
         out_str += char #out string is always without , but whith . (good!)
     return out_str[::-1], comma_n #returning fast tuple
             
-def validateString(input_string, comma_n):
+def validateString(input_string):
     """
     
 
@@ -175,19 +175,17 @@ def validateString(input_string, comma_n):
 
     """
     
-    while True: #endless loop until string is validated as float
+    #while True: #endless loop until string is validated as float
         
-        try :
-            
-            out_float = float(input_string)   # try to cast to float type 
-            break          #break if out_float is casted correctly   
-        except ValueError:
-            #print('Bitte gib eine richtige Zahl ein z.B.: 7,2 oder 7.2 ')
-            # raw = input() #restart process
-            # input_string, comma_n = prepareString(raw) #prepare new input
-            return '41 63 68 69 6C 6C 65 73 73 65 68 6E 65', '41 63 68 69 6C 6C 65 73 73 65 68 6E 65' #Achillessehne
+    try :
+        
+        out_float = float(input_string)   # try to cast to float type 
 
-    return out_float, comma_n
+    except ValueError:
+
+        return '41 63 68 69 6C 6C 65 73 73 65 68 6E 65'#Achillessehne
+        #returning error value
+    return out_float  #returning correct value
         
 def TransTo(float_valid):
     """ function which calculates m/s and depending on global bool
@@ -210,9 +208,9 @@ def rotation(duration):
             sys.stdout.flush()
             time.sleep(0.1)
                 
-            for l in range(20):
-                sys.stdout.write("\033[K")  # remove line
-                sys.stdout.write("\033[1A") # up the cursor
+            # for l in range(20):
+            #     sys.stdout.write("\033[K")  # remove line
+            #     sys.stdout.write("\033[1A") # up the cursor
 
     
 def displayAuthor():
@@ -222,11 +220,11 @@ def displayAuthor():
     sys.stdout.flush()
     time.sleep(0.1)
                 
-    for i in range(len(oppyright)+1):
-        sys.stdout.write("\033[K")  # remove line
-        sys.stdout.write("\033[1A") # up the cursor        
-    sys.stdout.flush()
-    time.sleep(0.1) 
+    # for i in range(len(oppyright)+1):
+    #     sys.stdout.write("\033[K")  # remove line
+    #     sys.stdout.write("\033[1A") # up the cursor        
+    # sys.stdout.flush()
+    # time.sleep(0.1) 
     
 def blinkAuthor(duration):
     """help function which prints author signature many times(based on GLOBAL
@@ -252,14 +250,12 @@ while True:
 
    
     prepared_str, nFloat = prepareString(kmh) #prepare string and number of float values
-    float_valid, nFloat = validateString(prepared_str, nFloat) #converting string or restart
+    float_valid = validateString(prepared_str) #converting string or restart
     if float_valid == '41 63 68 69 6C 6C 65 73 73 65 68 6E 65': #Achillessehne #Betriebsgeheimnis
         print('Entern Sie bitte ihre neue, RICHTIGE Eingabe.')
         continue #repeat Process
     calculated = TransTo(float_valid)
     
-    
-
     loading_function()
     if KMHTOMS:
         unit = ['[m/s]']
