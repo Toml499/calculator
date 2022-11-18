@@ -14,7 +14,7 @@ oppyright = oppyright.split('ф')
 frames = picture.split('λ')
 rows = picture.split('ф')
 edited_rows = []
-for i in range(len(rows)):
+for i in range(len(rows)): #small loop to fix inconsistency with picture string
     if i == 19:
         edited_rows.append(rows[i][:41])
         edited_rows.append(rows[i][41:])
@@ -28,24 +28,28 @@ KMHTOMS = True
 DURATION = 3
 
 def printHelpText():
+    """well, this one describes itself the best"""
     if KMHTOMS:
         string = '[km/h] -> [m/s]'
     else:
         string = '[km/h] -> [s/m]'
     print('==================================== \n ')
     print('Die aktuelle Umrechnung ist {}.'.format(string))
-    print('Das Programm gibt immer eine Nachkommastelle mehr, als der input aus.')
-    print('[exit] Beenden Sie das Programm indem sie "exit" eingeben.')
+    print('Das Programm gibt immer eine Nachkommastelle mehr, als der Input aus.')
+    print('[exit] Beenden Sie das Programm indem Sie "exit" eingeben.')
     print('[/help] Rufen Sie diese Hilfe Funktion auf.')
     print('[/toggle] Ändern Sie die Umrechnungsrichtung.')
     print('[/rotate] Für echte Geniesser!')
+    print('[/author] Anzeigen des Herstellertags')
     print('[/m/s] Umrechnen in [m/s].')
     print('[/s/m] Umrechnen in [s/m].')
     print('\n==================================== \n ')
     
 def CommandHandler(input_string):
+    """basic command handler, which processes inputs """
     global KMHTOMS
     lwrd = input_string.lower()
+    
     if lwrd in ['/', '/h', 'help', '/help', '/hilfe', 'hilfe', '/info']:
         printHelpText()
         return 2 #exit code 'Change Needed'
@@ -83,19 +87,21 @@ def CommandHandler(input_string):
     if lwrd in ['author', '/author', '/a', 'a', 'copyright', '/copyright']:
         
         blinkAuthor(DURATION)
+        return 2
         
     return 1 #if no keyword --> try continuing processing
 
 
 def loading_function():
+    """function which guarentees fast calculation """
     print("Processing Input: ##", end = ' ', flush=True)
     for i in range(6):
-        time.sleep(0.2)
+        time.sleep(0.13)
         print("##", end=' ', flush=True)
     print(" ")
     time.sleep(0.2)
     print("Calculation Finished!")
-    time.sleep(1)
+    time.sleep(0.2)
     return
     
 
@@ -184,6 +190,8 @@ def validateString(input_string, comma_n):
     return out_float, comma_n
         
 def TransTo(float_valid):
+    """ function which calculates m/s and depending on global bool
+    decides which value to return (m/s or s/m)"""
     meter_sec = abs(float_valid / 3.6) #actual calculation into m/s --> abs value because speed is always abs compared to velocity
     if KMHTOMS:          
         return meter_sec
@@ -193,6 +201,7 @@ def TransTo(float_valid):
 
     
 def rotation(duration):
+    """ function which rotates earth image defined in code above"""
     for k in range(duration): 
         for i in range(0, len(rows), 20):
             for j in range(20):
@@ -207,6 +216,7 @@ def rotation(duration):
 
     
 def displayAuthor():
+    """ function which is designed to display author signature"""
     for i in range(len(oppyright)):
         sys.stdout.write(str(oppyright[i]) + "\n")       
     sys.stdout.flush()
@@ -219,6 +229,9 @@ def displayAuthor():
     time.sleep(0.1) 
     
 def blinkAuthor(duration):
+    """help function which prints author signature many times(based on GLOBAL
+    duration
+    """
     for i in range(duration*10):
         displayAuthor()
         time.sleep(0.1)
