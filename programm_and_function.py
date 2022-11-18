@@ -31,9 +31,10 @@ def printHelpText():
     if KMHTOMS:
         string = '[km/h] -> [m/s]'
     else:
-        string = '[m/s] -> [km/h]'
+        string = '[km/h] -> [s/m]'
     print('==================================== \n ')
     print('Die aktuelle Umrechnung ist {}.'.format(string))
+    print('Das Programm gibt immer eine Nachkommastelle mehr, als der input aus.')
     print('[exit] Beenden Sie das Programm indem sie "exit" eingeben.')
     print('[/help] Rufen Sie diese Hilfe Funktion auf.')
     print('[/toggle] Ändern Sie die Umrechnungsrichtung.')
@@ -58,7 +59,7 @@ def CommandHandler(input_string):
              print('Nun wird von km/h in m/s umgerechnet.')        
         return 2 #exit code 'Change Needed'
     
-    if lwrd in ['/exit', 'exit', 'e', '/e']:
+    if lwrd in ['/exit', 'exit', 'e', '/e', '"exit"']:
         print('Vielen Dank für das Nutzen dieses Tools.')
         print('© Patrick Ablinger, 2022')
         return 0 #0 is exit key
@@ -79,7 +80,7 @@ def CommandHandler(input_string):
         print('Nun wird von [km/h] in [s/m] umgerechnet.')
         return 2
     
-    if lwrd in ['author', '\author', '/a', 'a', 'copyright', '/copyright']:
+    if lwrd in ['author', '/author', '/a', 'a', 'copyright', '/copyright']:
         
         blinkAuthor(DURATION)
         
@@ -148,7 +149,7 @@ def prepareString(input_string):
             if char == ',': #correction check
                 char = '.' #correction step
         out_str += char #out string is always without , but whith . (good!)
-    return out_str, comma_n #returning fast tuple
+    return out_str[::-1], comma_n #returning fast tuple
             
 def validateString(input_string, comma_n):
     """
@@ -182,15 +183,15 @@ def validateString(input_string, comma_n):
 
     return out_float, comma_n
         
-def TransTo():
-    meter_sec = (abs(float_valid / 3.6)) #actual calculation into m/s --> abs value because speed is always abs compared to velocity
+def TransTo(float_valid):
+    meter_sec = abs(float_valid / 3.6) #actual calculation into m/s --> abs value because speed is always abs compared to velocity
     if KMHTOMS:          
         return meter_sec
     else:
         sec_meter = 1/meter_sec #invert
         return sec_meter
 
-#=============================================================================    
+    
 def rotation(duration):
     for k in range(duration): 
         for i in range(0, len(rows), 20):
@@ -211,13 +212,16 @@ def displayAuthor():
     sys.stdout.flush()
     time.sleep(0.1)
                 
-    for i in range(len(oppyright)):
+    for i in range(len(oppyright)+1):
         sys.stdout.write("\033[K")  # remove line
         sys.stdout.write("\033[1A") # up the cursor        
-     
+    sys.stdout.flush()
+    time.sleep(0.1) 
+    
 def blinkAuthor(duration):
-    for i in range(duration*20):
+    for i in range(duration*10):
         displayAuthor()
+        time.sleep(0.1)
         
 print('Falls Sie Hilfe benötigen, geben Sie /help ein.')   
 print('Beenden Sie das Programm indem sie "exit" eingeben.') 
@@ -234,13 +238,13 @@ while True:
         continue #repeat Process
 
    
-
     prepared_str, nFloat = prepareString(kmh) #prepare string and number of float values
     float_valid, nFloat = validateString(prepared_str, nFloat) #converting string or restart
     if float_valid == '41 63 68 69 6C 6C 65 73 73 65 68 6E 65': #Achillessehne #Betriebsgeheimnis
         print('Entern Sie bitte ihre neue, RICHTIGE Eingabe.')
         continue #repeat Process
-    calculated = TransTo()
+    calculated = TransTo(float_valid)
+    
     
 
     loading_function()
