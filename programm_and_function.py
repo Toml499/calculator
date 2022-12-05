@@ -184,6 +184,7 @@ def validateString(input_string):
 
 
     """
+
           
     try :
         
@@ -194,9 +195,11 @@ def validateString(input_string):
         return '41 63 68 69 6C 6C 65 73 73 65 68 6E 65' , 0#Achillessehne
         #returning error value
     number_of_N = ''
+    
+
     for char in input_string:
         if char != '.':
-            number_of_N += (char)
+            number_of_N += char
         else:
             break
     return out_float, len(number_of_N)  #returning correct value
@@ -266,7 +269,9 @@ def blinkAuthor(duration):
     
 def _18_0_exceptionCheckAndPrint(calculated_func, nOfValue_func, kmh_func, nFloat_func, unit_func):
     '''DOC BADLY NEEDED'''
-    if len(kmh) + 1 - len(calculated_func) == 0: #should be zero if .000 value is entered and then str has correct length for rounding error aswell
+    
+    
+    if len(kmh_func) + 1 - len(calculated_func) == 0: #should be zero if .000 value is entered and then str has correct length for rounding error aswell
         if nOfValue == len(calculated_func[:nOfValue_func]): #could be zero but the other one is with one digit less than the input
             if '.' in calculated_func[:nOfValue_func]: #checking it here explicitly
                 
@@ -295,10 +300,13 @@ while True:
     if continueValue == 2:
         print('Entern Sie bitte ihre neue Eingabe.')
         continue #repeat Process
-
+        
    
     prepared_str, nFloat = prepareString(kmh) #prepare string and number of float values
     float_valid, nOfValue = validateString(prepared_str) #converting string or restart and return number before .
+    
+    if kmh[0] == '-': #neutralize negative values
+        kmh = kmh[1:]
     
     if float_valid == '41 63 68 69 6C 6C 65 73 73 65 68 6E 65': #Achillessehne #Betriebsgeheimnis
         print('Entern Sie bitte ihre neue, RICHTIGE Eingabe.')
