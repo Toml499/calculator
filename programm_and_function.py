@@ -191,9 +191,15 @@ def validateString(input_string):
 
     except ValueError:
 
-        return '41 63 68 69 6C 6C 65 73 73 65 68 6E 65'#Achillessehne
+        return '41 63 68 69 6C 6C 65 73 73 65 68 6E 65' , 0#Achillessehne
         #returning error value
-    return out_float  #returning correct value
+    number_of_N = ''
+    for char in input_string:
+        if char != '.':
+            number_of_N += (char)
+        else:
+            break
+    return out_float, len(number_of_N)  #returning correct value
    
      
 def TransTo(float_valid, raw_str):
@@ -256,8 +262,25 @@ def blinkAuthor(duration):
     for i in range(duration*10):
         displayAuthor()
         time.sleep(0.1)
-   
+
+    
+def _18_0_exceptionCheckAndPrint(calculated_func, nOfValue_func, kmh_func, nFloat_func):
+    '''DOC BADLY NEEDED'''
+    if len(kmh) + 1 - len(calculated_func) == 0: #should be zero if .000 value is entered and then str has correct length for rounding error aswell
+        if nOfValue == len(calculated_func[:nOfValue_func]): #could be zero but the other one is with one digit less than the input
+            if '.' in calculated_func[:nOfValue_func]: #checking it here explicitly
+                
+                output_calc = calculated_func[:-1] #returns string with one zero less
+            else:
+                output_calc = calculated_func #returns exactly the string
+        else:
+
+            output_calc = calculated_func ##returns exactly the string if not
+    else: #for normal float --> needs rounding of value
+        output_calc = round(float(calculated_func), nFloat_func+1) #returns float --> +1 because i want to include rounding error
+    print('Ihre Eingabe beträgt umgerechnet {} {}. \n'.format(output_calc, unit)) #IMPORTANT: output_calc is dynamic DTYPE (float or str)
         
+    
 print('Falls Sie Hilfe benötigen, geben Sie /help ein.')   
 print('Beenden Sie das Programm indem sie "exit" eingeben.') 
 print('Bitte geben Sie die gegebenen km/h ein: ')
@@ -275,12 +298,14 @@ while True:
 
    
     prepared_str, nFloat = prepareString(kmh) #prepare string and number of float values
-    float_valid = validateString(prepared_str) #converting string or restart
+    float_valid, nOfValue = validateString(prepared_str) #converting string or restart and return number before .
     
     if float_valid == '41 63 68 69 6C 6C 65 73 73 65 68 6E 65': #Achillessehne #Betriebsgeheimnis
         print('Entern Sie bitte ihre neue, RICHTIGE Eingabe.')
         continue #repeat Process
-        
+    print(kmh)
+    print(float_valid)   
+    
     calculated = TransTo(float_valid, kmh) #calculated is str-type
         
     loading_function()
@@ -289,13 +314,26 @@ while True:
         unit = '[m/s]'
     else:
         unit = '[s/m]'
-  
-    if len(kmh) + 1 - len(calculated) == 0: #should be zero if .000 value is entered and then str has correct length for rounding error aswell
-        output_calc = calculated #returns string
-    else: #for normal float --> needs rounding of value
-        output_calc = round(float(calculated), nFloat+1) #returns float --> +1 because i want to include rounding error
-    print('Ihre Eingabe beträgt umgerechnet {} {}. \n'.format(output_calc, unit)) #IMPORTANT: output_calc is dynamic DTYPE (float or str)
+        
+    _18_0_exceptionCheckAndPrint(calculated, nOfValue, kmh, nFloat)
+    #print(calculated)
 
 
+    # if len(kmh) + 1 - len(calculated) == 0: #should be zero if .000 value is entered and then str has correct length for rounding error aswell
+    #     if nOfValue == len(calculated[:nOfValue]):
+    #         if '.' in calculated[:nOfValue]:
+                
+    #             output_calc = calculated[:-1] #returns string with one zero less
+    #         else:
+    #             output_calc = calculated
+    #     else:
+
+    #         output_calc = calculated
+    # else: #for normal float --> needs rounding of value
+    #     output_calc = round(float(calculated), nFloat+1) #returns float --> +1 because i want to include rounding error
+    # print('Ihre Eingabe beträgt umgerechnet {} {}. \n'.format(output_calc, unit)) #IMPORTANT: output_calc is dynamic DTYPE (float or str)
+
+
+    
 
 
