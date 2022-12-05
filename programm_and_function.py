@@ -264,7 +264,7 @@ def blinkAuthor(duration):
         time.sleep(0.1)
 
     
-def _18_0_exceptionCheckAndPrint(calculated_func, nOfValue_func, kmh_func, nFloat_func):
+def _18_0_exceptionCheckAndPrint(calculated_func, nOfValue_func, kmh_func, nFloat_func, unit_func):
     '''DOC BADLY NEEDED'''
     if len(kmh) + 1 - len(calculated_func) == 0: #should be zero if .000 value is entered and then str has correct length for rounding error aswell
         if nOfValue == len(calculated_func[:nOfValue_func]): #could be zero but the other one is with one digit less than the input
@@ -278,7 +278,7 @@ def _18_0_exceptionCheckAndPrint(calculated_func, nOfValue_func, kmh_func, nFloa
             output_calc = calculated_func ##returns exactly the string if not
     else: #for normal float --> needs rounding of value
         output_calc = round(float(calculated_func), nFloat_func+1) #returns float --> +1 because i want to include rounding error
-    print('Ihre Eingabe beträgt umgerechnet {} {}. \n'.format(output_calc, unit)) #IMPORTANT: output_calc is dynamic DTYPE (float or str)
+    print('Ihre Eingabe beträgt umgerechnet {} {}. \n'.format(output_calc, unit_func)) #IMPORTANT: output_calc is dynamic DTYPE (float or str)
         
     
 print('Falls Sie Hilfe benötigen, geben Sie /help ein.')   
@@ -315,7 +315,7 @@ while True:
     else:
         unit = '[s/m]'
         
-    _18_0_exceptionCheckAndPrint(calculated, nOfValue, kmh, nFloat)
+    _18_0_exceptionCheckAndPrint(calculated, nOfValue, kmh, nFloat, unit)
 
     
 
