@@ -303,8 +303,8 @@ while True:
     if float_valid == '41 63 68 69 6C 6C 65 73 73 65 68 6E 65': #Achillessehne #Betriebsgeheimnis
         print('Entern Sie bitte ihre neue, RICHTIGE Eingabe.')
         continue #repeat Process
-    print(kmh)
-    print(float_valid)   
+    #print(kmh)
+    #print(float_valid)   
     
     calculated = TransTo(float_valid, kmh) #calculated is str-type
         
