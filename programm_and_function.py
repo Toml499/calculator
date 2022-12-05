@@ -316,23 +316,6 @@ while True:
         unit = '[s/m]'
         
     _18_0_exceptionCheckAndPrint(calculated, nOfValue, kmh, nFloat)
-    #print(calculated)
-
-
-    # if len(kmh) + 1 - len(calculated) == 0: #should be zero if .000 value is entered and then str has correct length for rounding error aswell
-    #     if nOfValue == len(calculated[:nOfValue]):
-    #         if '.' in calculated[:nOfValue]:
-                
-    #             output_calc = calculated[:-1] #returns string with one zero less
-    #         else:
-    #             output_calc = calculated
-    #     else:
-
-    #         output_calc = calculated
-    # else: #for normal float --> needs rounding of value
-    #     output_calc = round(float(calculated), nFloat+1) #returns float --> +1 because i want to include rounding error
-    # print('Ihre Eingabe beträgt umgerechnet {} {}. \n'.format(output_calc, unit)) #IMPORTANT: output_calc is dynamic DTYPE (float or str)
-
 
     
 
